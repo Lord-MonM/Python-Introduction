@@ -28,10 +28,15 @@ class Hopital:
        
 
     def get_record(self):
-        record_name = str(input("Please enter your full name: "))
-        with open(f"Modules_work\\files\\{record_name}File.txt","r") as file:
-            self.patient_details = file.readlines()
-            return self.patient_details
+        while True:
+            record_name = str(input("Please enter your full name: "))
+            try:
+                with open(f"hospitalfiles\\{record_name}File.txt","r") as file:
+                    self.patient_details = file.readlines()
+                    return self.patient_details
+                     
+            except FileNotFoundError:
+                print("this file does not exist")
         
 
     def family_card_details(self):
@@ -42,21 +47,24 @@ class Hopital:
         patient_contact = str(input("Please enter your contact: "))
         patient_age = int(input("Please enter your age: "))
         details = f"Patient ID: {patient_id} \n Full Name: {patient_name} {patient_lastname} \n Gender: {patient_gender} \n Age: {patient_age} \n Contact: {patient_contact} "
-        with open(f"Modules_work\\files\\{patient_name}{patient_lastname}File.txt","a") as file:
+        with open(f"hospitalfiles\\{patient_name}{patient_lastname}File.txt","a") as file:
             file.write(f"{details}")
 
     @staticmethod
     def enroll_Hospital(self):
         print(f"Welcome to {self.name} \n")
         while True:
-            family_card =str(input("Is this your first  visit? Y/n:  "))
-            if family_card == "n".lower() :
-                self.book_appointment()
-                break
-            elif family_card ==  "y".lower():
-                self.family_card_details()
-                self.book_appointment()
-                break
+            try:
+                family_card =str(input("Is this your first  visit? Y/n:  "))
+                if family_card == "n".lower() :
+                    self.book_appointment()
+                    break
+                elif family_card ==  "y".lower():
+                    self.family_card_details()
+                    self.book_appointment()
+                    break
+              except Exception as e:
+                   print(f"Exception Message: {str(e)}")
                
             
 
